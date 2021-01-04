@@ -1,15 +1,18 @@
-//获取用户想去的路径
-const number = window.location.hash.slice(1) || 1
+let route = () => {
+    const visibleWrapper = document.querySelector('#app')
+    const number = window.location.hash.slice(1) || 1
+    const div = document.querySelector(`#div${number}`)
+    if (visibleWrapper.children.length > 0) {
+        const removeDiv = visibleWrapper.children[0]
+        removeDiv.style.display = 'none'
+        document.body.appendChild(removeDiv)
+    }
+    div.style.display = 'block'
+    visibleWrapper.appendChild(div)
+}
 
+route()
 
-//获取页面
-const div = document.querySelector(`#div${number}`)
-
-
-const visible = document.querySelector('#app')
-
-//渲染界面
-div.style.display = 'block'
-
-//展示界面
-visible.appendChild(div)
+window.addEventListener('hashchange', () => {
+    route()
+})
