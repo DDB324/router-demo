@@ -70,6 +70,16 @@ const routerTable2 = {
     '4': div14,
 }
 
+let allA = document.querySelectorAll('a.history')
+for (let i of allA) {
+    i.addEventListener('click', (e) => {
+        e.preventDefault()
+        const href = i.getAttribute('href')
+        window.history.pushState(null, `page${href}`, href)
+        route(routerTable)
+    })
+}
+
 route(routerTable, routerTable2)
 
 window.addEventListener('hashchange', () => {
