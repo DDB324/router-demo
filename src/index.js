@@ -1,7 +1,13 @@
 function route(container1, container2) {
     const visibleWrapper = document.querySelector('#app')
-    const array = window.location.hash.slice(1).split('/')
-    const number1 = array[0] || 1
+    let array
+    let {hash, pathname} = window.location
+    if (hash) {
+        array = hash.slice(1).split('/')
+    } else if (pathname) {
+        array = pathname.slice(1).split('/')
+    }
+    const number1 = array[0] || '1'
     const number2 = array[1]
     let div1 = container1[number1]
 
