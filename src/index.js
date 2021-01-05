@@ -1,11 +1,19 @@
-function route(container1, container2) {
+function route(container1, container2, memory) {
     const visibleWrapper = document.querySelector('#app')
     let array
     let {hash, pathname} = window.location
-    if (hash) {
-        array = hash.slice(1).split('/')
-    } else if (pathname) {
-        array = pathname.slice(1).split('/')
+    if (!memory) {
+        if (hash) {
+            array = hash.slice(1).split('/')
+        } else if (pathname) {
+            array = pathname.slice(1).split('/')
+        }
+    } else {
+        array = localStorage.getItem('value')?.slice(1).split('/')
+        if (!array) {
+            localStorage.setItem('value', '/1')
+            array = []
+        }
     }
     const number1 = array[0] || '1'
     const number2 = array[1]
@@ -70,6 +78,7 @@ const routerTable2 = {
     '4': div14,
 }
 
+//history模式
 let allA = document.querySelectorAll('a.history')
 for (let i of allA) {
     i.addEventListener('click', (e) => {
@@ -80,8 +89,19 @@ for (let i of allA) {
     })
 }
 
-route(routerTable, routerTable2)
+//memory模式
+let memoryA = document.querySelectorAll('a.memory')
+for (let i of memoryA) {
+    i.addEventListener('click', (e) => {
+        e.preventDefault()
+        const href = i.getAttribute('href')
+        localStorage.setItem('value', href)
+        route(routerTable, routerTable2, 'memory')
+    })
+}
+
+route(routerTable, routerTable2, 'memory')
 
 window.addEventListener('hashchange', () => {
-    route(routerTable, routerTable2)
+    route(routerTable, routerTable2, 'memory')
 })
